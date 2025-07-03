@@ -1,3 +1,5 @@
+# This dataset contains alcohol and quality columns
+# Format: Alcohol,Quality
 9.4,5
 10.0,5
 10.5,6
