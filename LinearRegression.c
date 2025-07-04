@@ -37,15 +37,21 @@ int main(){
 
    int n =  loadData();  //total entries
 
-   int epoches = 1000;
+   int epoches = 10000000,count =0;
 
-   double alpha = 0.00001;
+   double alpha = 0.0001;
 
    double dwrtm =0.0 , dwrtc = 0.0;
 
-   double m = 0.0 , c = 0.0 ;
+   double mi = 0.0 , ci = 0.0 , m = 0.0 , c = 0.0 ;
 
-   for(int count = 0 ; count <= epoches ; count++){
+   do{
+
+    if(count % 1000 ==0)
+      printf("%d\n", count);
+
+    mi = m;
+    ci = c;
     dwrtm = 0.0; 
     dwrtc = 0.0;
 
@@ -56,19 +62,22 @@ int main(){
             double x = alcohol[i];
             double y = quality[i];
 
-            dwrtm += -(2.0/n) * x * (y - (m*x + c) );
-            dwrtc += -(2.0/n) *(y - (m*x + c) );
+            dwrtm += -(2.0/n) * x * (y - (mi*x + ci) );
+            dwrtc += -(2.0/n) *(y - (mi*x + ci) );
 
         }
 
-    m = m - alpha * dwrtm;
-    c = c - alpha * dwrtc;
-   
-    }    
+    m = mi - alpha * dwrtm;
+    c = ci - alpha * dwrtc;
+    count++;
+    }while((fabs(m - mi )> 0.0000001  || fabs(c - ci) > 0.0000001) && count < epoches);    
     printf("Result: y = (%lf)x + (%lf)\n\n",m,c);
 
    return 0;
 
 }
+
+
+
 
 
